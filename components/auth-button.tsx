@@ -5,9 +5,11 @@ import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function AuthButton() {
   const auth = useAuth();
+  const router = useRouter();
 
   return (
     <div>
@@ -37,14 +39,19 @@ export default function AuthButton() {
             <DropdownMenuItem asChild>
               <Link href="/account">My Account</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/admin-dashboard">Admin Dashboard</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/account/my-favorites">My Favorites</Link>
-            </DropdownMenuItem>
+            {!!auth.customClaims?.admin && (
+              <DropdownMenuItem asChild>
+                <Link href="/admin-dashboard">Admin Dashboard</Link>
+              </DropdownMenuItem>
+            )}
+            {!auth.customClaims?.admin && (
+              <DropdownMenuItem asChild>
+                <Link href="/account/my-favorites">My Favorites</Link>
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem onClick={async () => {
               await auth.logout();
+              router.refresh();
             }}>
               Logout
             </DropdownMenuItem>
