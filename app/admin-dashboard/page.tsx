@@ -20,7 +20,7 @@ export default async function AdminDashboard({
       <h1 className="text-4xl font-bold mt-6">Admin Dashboard</h1>
       <Button asChild className="inline-flex pl-2 gap-2 mt-4">
         <Link href="/admin-dashboard/new">
-          <PlusCircleIcon/> New Property
+          <PlusCircleIcon/> Add Property
         </Link>
       </Button>
       <PropertiesTable page={searchparamsValue?.page ? parseInt(searchparamsValue.page) : 1} />
